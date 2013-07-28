@@ -34,9 +34,6 @@ staticAPI.prototype = {
                     this.currentDirectory = path.join(this.currentDirectory, id);
                     fs.mkdirSync(this.currentDirectory);
                     this.writeJsonFile(path.join(this.currentDirectory, id + '.json'), jsonObject[id]);
-
-                    console.log(id + ' is an object creating directory');
-
                     this.processDataRecursive(jsonObject[id]);
                 }
             }
