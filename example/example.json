@@ -1,0 +1,75 @@
+{
+    "cities": {
+        "london": {
+            "id": "london",
+            "name": "London",
+            "stores": [
+                {
+                    "name": "Oxford Street",
+                    "Address": "111 Oxford Street, London",
+                    "postcode": "EC1 2EF",
+                    "Opening Times": {
+                        "mon": "9am-6pm",
+                        "tue": "9am-6pm",
+                        "wed": "9am-6pm",
+                        "thu": "9am-6pm",
+                        "fri": "9am-6pm",
+                        "sat": "9am-6pm",
+                        "sun": "Closed"
+                    }
+                },
+                {
+                    "name": "Upper Street",
+                    "Address": "111 Upper Street, London",
+                    "postcode": "N1 2EF",
+                    "Opening Times": {
+                        "mon": "9am-6pm",
+                        "tue": "9am-6pm",
+                        "wed": "9am-6pm",
+                        "thu": "9am-6pm",
+                        "fri": "9am-6pm",
+                        "sat": "9am-6pm",
+                        "sun": "Closed"
+                    }
+                }
+
+            ]
+        },
+        "newyork": {
+            "id": "newyork",
+            "name": "New York",
+            "stores": [
+                {
+                    "name": "Fake Street",
+                    "Address": "111 Fake Street, New York",
+                    "postcode": "EC1 2EF",
+                    "Opening Times": {
+                        "mon": "9am-6pm",
+                        "tue": "9am-6pm",
+                        "wed": "9am-6pm",
+                        "thu": "9am-6pm",
+                        "fri": "9am-6pm",
+                        "sat": "9am-6pm",
+                        "sun": "Closed"
+                    }
+                },
+                {
+                    "name": "111 Street",
+                    "Address": "111 111 Street, New York",
+                    "postcode": "N1 2EF",
+                    "Opening Times": {
+                        "mon": "9am-6pm",
+                        "tue": "9am-6pm",
+                        "wed": "9am-6pm",
+                        "thu": "9am-6pm",
+                        "fri": "9am-6pm",
+                        "sat": "9am-6pm",
+                        "sun": "Closed"
+                    }
+                }
+
+            ]
+        }
+
+    }
+}
