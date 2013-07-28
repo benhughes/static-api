@@ -10,6 +10,8 @@ lib-cov
 
 .idea/
 
+example/data/*
+
 pids
 logs
 results
