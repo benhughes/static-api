@@ -15,7 +15,7 @@ staticAPI.prototype = {
     },
     parseSettings: function (settings) {
         if (typeof settings !== 'object') {
-            throw('A settings object is needed')
+            throw('A settings object is needed');
         }
         this.settings = this.merge(this.defaultOptions, settings);
     },
@@ -53,7 +53,7 @@ staticAPI.prototype = {
         var _this = this;
         if( fs.existsSync(path) ) {
             files = fs.readdirSync(path);
-            files.forEach(function(file,index){
+            files.forEach(function(file){
                 var curPath = path + "/" + file;
                 if(fs.statSync(curPath).isDirectory()) { // recurse
                     _this.deleteFolderRecursive(curPath);
@@ -66,7 +66,9 @@ staticAPI.prototype = {
     },
     merge: function (obj1, obj2) {
         for (var attrname in obj2) {
-            obj1[attrname] = obj2[attrname];
+            if( obj2.hasOwnProperty( attrname ) ) {
+                obj1[attrname] = obj2[attrname];
+            }
         }
         return obj1;
     }
