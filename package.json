@@ -1,0 +1,24 @@
+{
+  "name": "static-api",
+  "version": "0.0.0",
+  "description": "Reads a JSON file and generates a static folder structure that matches the JSON to allow data end points for simple apps without a server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benhughes/static-api.git"
+  },
+  "keywords": [
+    "api",
+    "client",
+    "side"
+  ],
+  "author": {
+      "name": "Ben Hughes",
+      "email": "benhuggy@gmail.com"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
