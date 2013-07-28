@@ -18,21 +18,18 @@ staticAPI.prototype = {
             throw('A settings object is needed')
         }
         this.settings = this.merge(this.defaultOptions, settings);
-
-
-
     },
     createJsonFolderStructure: function () {
         this.deleteFolderRecursive(this.settings.outputFolder);
         fs.mkdirSync(this.settings.outputFolder);
         this.currentDirectory = this.settings.outputFolder;
+        this.writeJsonFile(path.join(this.currentDirectory, path.basename(this.currentDirectory, '/') + '.json'), this.settings.object);
         this.processDataRecursive(this.settings.object);
+
     },
     processDataRecursive: function (jsonObject) {
         for (var id in jsonObject) {
-            //console.log('checking ' + id)
             if( jsonObject.hasOwnProperty( id ) ) {
-                //console.log(id + ' is a ' + typeof jsonObject[id]);
                 if(typeof jsonObject[id] === 'object') {
                     this.currentDirectory = path.join(this.currentDirectory, id);
                     fs.mkdirSync(this.currentDirectory);
