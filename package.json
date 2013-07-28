@@ -4,7 +4,7 @@
   "description": "Reads a JSON file and generates a static folder structure that matches the JSON to allow data end points for simple apps without a server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node spec/"
   },
   "repository": {
     "type": "git",
