@@ -15,7 +15,7 @@ staticAPI.prototype = {
     },
     parseSettings: function (settings) {
         if (typeof settings !== 'object') {
-            throw('A settings object is needed');
+            throw ('A settings object is needed');
         }
         this.settings = this.merge(this.defaultOptions, settings);
     },
@@ -29,8 +29,8 @@ staticAPI.prototype = {
     },
     processDataRecursive: function (jsonObject) {
         for (var id in jsonObject) {
-            if( jsonObject.hasOwnProperty( id ) ) {
-                if(typeof jsonObject[id] === 'object') {
+            if (jsonObject.hasOwnProperty(id)) {
+                if (typeof jsonObject[id] === 'object') {
                     this.currentDirectory = path.join(this.currentDirectory, id);
                     fs.mkdirSync(this.currentDirectory);
                     this.writeJsonFile(path.join(this.currentDirectory, id + '.json'), jsonObject[id]);
@@ -47,24 +47,23 @@ staticAPI.prototype = {
     },
     deleteFolderRecursive: function (path) {
         var files = [];
-        var _this = this;
-        if( fs.existsSync(path) ) {
+        if (fs.existsSync(path)) {
             files = fs.readdirSync(path);
-            files.forEach(function(file){
+            files.forEach(function (file) {
                 var curPath = path + "/" + file;
-                if(fs.statSync(curPath).isDirectory()) { // recurse
-                    _this.deleteFolderRecursive(curPath);
+                if (fs.statSync(curPath).isDirectory()) { // recurse
+                    this.deleteFolderRecursive(curPath);
                 } else { // delete file
                     fs.unlinkSync(curPath);
                 }
-            });
+            }, this);
             fs.rmdirSync(path);
         }
     },
     merge: function (obj1, obj2) {
-        for (var attrname in obj2) {
-            if( obj2.hasOwnProperty( attrname ) ) {
-                obj1[attrname] = obj2[attrname];
+        for (var attribute in obj2) {
+            if (obj2.hasOwnProperty(attribute)) {
+                obj1[attribute] = obj2[attribute];
             }
         }
         return obj1;

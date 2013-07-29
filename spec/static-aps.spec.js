@@ -1,22 +1,22 @@
 
 describe('static-api', function () {
-    var staticApi, fs, staticApiFunctions;
+    var StaticApi, fs, staticApiFunctions;
     beforeEach(function () {
-        staticApi = require('../index.js');
+        StaticApi = require('../index.js');
         fs = require('fs');
-        staticApiFunctions = staticApi.prototype;
+        staticApiFunctions = StaticApi.prototype;
         spyOn(fs, 'mkdirSync');
     });
 
     it('should be a function', function () {
-        expect(typeof staticApi).toEqual('function');
+        expect(typeof StaticApi).toEqual('function');
     });
     describe('initial functions', function () {
         it('should call parseSettings and createJsonFolderStructure', function () {
-            var exampleSettings = {'test':'test'};
+            var exampleSettings = {'test': 'test'};
             spyOn(staticApiFunctions, 'parseSettings');
             spyOn(staticApiFunctions, 'createJsonFolderStructure');
-            new staticApi(exampleSettings);
+            new StaticApi(exampleSettings);
             expect(staticApiFunctions.parseSettings).toHaveBeenCalledWith(exampleSettings);
             expect(staticApiFunctions.createJsonFolderStructure).toHaveBeenCalled();
         });
@@ -24,13 +24,13 @@ describe('static-api', function () {
     });
     describe('parseSettings', function () {
         beforeEach(function () {
-           spyOn(staticApiFunctions, 'merge');
+            spyOn(staticApiFunctions, 'merge');
         });
 
         it('should throw error if a non object is passed', function () {
-            expect(function () {staticApiFunctions.parseSettings('string');}).toThrow();
-            expect(function () {staticApiFunctions.parseSettings();}).toThrow();
-            expect(function () {staticApiFunctions.parseSettings(3424);}).toThrow();
+            expect(function () {staticApiFunctions.parseSettings('string'); }).toThrow();
+            expect(function () {staticApiFunctions.parseSettings(); }).toThrow();
+            expect(function () {staticApiFunctions.parseSettings(3424); }).toThrow();
         });
         it('should call this.merge with defaultOptions and passed settings', function () {
             var testSettings = {
@@ -51,7 +51,7 @@ describe('static-api', function () {
             staticApiFunctions.settings = {
                 'outputFolder': 'test',
                 'object': {}
-            }
+            };
 
             staticApiFunctions.createJsonFolderStructure();
             expect(fs.mkdirSync).toHaveBeenCalled();
