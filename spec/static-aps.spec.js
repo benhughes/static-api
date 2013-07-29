@@ -6,6 +6,7 @@ describe('static-api', function () {
         fs = require('fs');
         staticApiFunctions = StaticApi.prototype;
         spyOn(fs, 'mkdirSync');
+        spyOn(fs, 'writeFileSync');
     });
 
     it('should be a function', function () {
@@ -58,6 +59,72 @@ describe('static-api', function () {
             expect(staticApiFunctions.deleteFolderRecursive).toHaveBeenCalled();
             expect(staticApiFunctions.writeJsonFile).toHaveBeenCalled();
             expect(staticApiFunctions.processDataRecursive).toHaveBeenCalled();
+        });
+    });
+    describe('processDataRecursive', function () {
+        beforeEach(function () {
+            spyOn(staticApiFunctions, 'writeJsonFile');
+            spyOn(staticApiFunctions, 'processDataRecursive').andCallThrough();
+
+
+        });
+        afterEach(function () {
+            staticApiFunctions.currentDirectory = undefined;
+        });
+        it('should recursively call it self if object contains child objects and create the correct folder structure', function () {
+            var fakeObject = {
+                'object': {
+                    'attribute1': 1,
+                    'attribute2': 2,
+                    'attribute3': 3
+                },
+                attribute: 1,
+                object2: {
+                    'attribute4': 4
+                }
+            };
+
+            staticApiFunctions.currentDirectory = 'test123';
+
+            staticApiFunctions.processDataRecursive(fakeObject);
+            expect(staticApiFunctions.processDataRecursive.callCount).toEqual(3);
+            expect(staticApiFunctions.processDataRecursive.argsForCall[0][0]).toEqual(fakeObject);
+            expect(staticApiFunctions.processDataRecursive.argsForCall[1][0]).toEqual(fakeObject.object);
+            expect(staticApiFunctions.processDataRecursive.argsForCall[2][0]).toEqual(fakeObject.object2);
+
+            expect(staticApiFunctions.writeJsonFile.callCount).toEqual(2);
+            expect(staticApiFunctions.writeJsonFile.argsForCall[0]).toEqual(['test123/object/object.json', fakeObject.object]);
+            expect(staticApiFunctions.writeJsonFile.argsForCall[1]).toEqual(['test123/object2/object2.json', fakeObject.object2]);
+
+            expect(fs.mkdirSync.callCount).toEqual(2);
+            expect(fs.mkdirSync.argsForCall[0]).toEqual(['test123/object']);
+            expect(fs.mkdirSync.argsForCall[1]).toEqual(['test123/object2']);
+
+            expect(staticApiFunctions.currentDirectory).toEqual('./');
+
+        });
+        it('should never call writeJsonFile and processDataRecursive again if no objects are in the object', function () {
+            var fakeObject = {
+                    'attribute1': 1,
+                    'attribute2': 2,
+                    'attribute3': 3
+                };
+            staticApiFunctions.processDataRecursive(fakeObject);
+            expect(staticApiFunctions.processDataRecursive.callCount).toEqual(1);
+            expect(staticApiFunctions.writeJsonFile).not.toHaveBeenCalled();
+
+        });
+
+    });
+    describe('writeJsonFile', function () {
+        it('should call fs.writeFileSync with the passed filename and a stringified object', function () {
+            var fakeObject = {
+                'attribute1': 1,
+                'attribute2': 2,
+                'attribute3': 3
+            };
+            staticApiFunctions.writeJsonFile('test/test/test.json', fakeObject);
+            expect(fs.writeFileSync).toHaveBeenCalledWith('test/test/test.json', JSON.stringify(fakeObject));
         });
     });
 });
