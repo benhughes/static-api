@@ -1,6 +1,6 @@
 {
   "name": "static-api",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Reads a JSON file and generates a static folder structure that matches the JSON to allow data end points for simple apps without a server",
   "main": "index.js",
   "scripts": {
