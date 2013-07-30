@@ -1,7 +1,8 @@
 static-api
 ==========
 
-A node module that reads a JSON file and generates a static folder structure that matches the JSON to allow data end points for simple apps without a server
+A node module that reads a JSON file and generates a static folder structure that matches 
+the JSON to allow data end points for simple apps without a server
 
 ## How to use
 
@@ -55,7 +56,8 @@ Create a .json file that strucuture matches your desired API.
 ````
 ### The code
 
-Create a file a js file similar to the code below. 
+Include 'static-api' as a dependency in your package.json and create a 
+file a js file similar to the code below. 
 
 ````js
 var baseData = require('./my-api.json'), //load your json file
