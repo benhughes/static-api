@@ -10,17 +10,38 @@ var staticAPI = function (settings) {
 staticAPI.prototype = {
     defaultOptions: {
         outputFolder: 'data',
-        useBackUps: true,
+        backUp: true,
         pagination: true
     },
     parseSettings: function (settings) {
         if (typeof settings !== 'object') {
             throw ('A settings object is needed');
+        } else if (settings.object === undefined) {
+            throw ('an json is needed for static-api to work');
+        } else if (typeof settings.object === 'string') {
+            if (fs.existsSync(settings.object)) {
+                settings.object = this.getJsonFromPath(settings.object);
+            } else {
+                throw ('json object not found at supplied path');
+            }
         }
         this.settings = this.merge(this.defaultOptions, settings);
     },
+    getJsonFromPath: function (path) {
+        return require(path);
+    },
     createJsonFolderStructure: function () {
-        this.deleteFolderRecursive(this.settings.outputFolder);
+        if (fs.existsSync(this.settings.outputFolder)) {
+            if (this.settings.backUp) {
+                if (fs.existsSync(this.settings.outputFolder + "_bk")) {
+                    this.deleteFolderRecursive(this.settings.outputFolder + "_bk");
+                }
+                fs.renameSync(this.settings.outputFolder, this.settings.outputFolder + "_bk");
+
+            } else {
+                this.deleteFolderRecursive(this.settings.outputFolder);
+            }
+        }
         fs.mkdirSync(this.settings.outputFolder);
         this.currentDirectory = this.settings.outputFolder;
         this.writeJsonFile(path.join(this.currentDirectory, path.basename(this.currentDirectory, '/') + '.json'), this.settings.object);
@@ -51,9 +72,9 @@ staticAPI.prototype = {
             files = fs.readdirSync(path);
             files.forEach(function (file) {
                 var curPath = path + "/" + file;
-                if (fs.statSync(curPath).isDirectory()) { // recurse
+                if (fs.statSync(curPath).isDirectory()) {
                     this.deleteFolderRecursive(curPath);
-                } else { // delete file
+                } else {
                     fs.unlinkSync(curPath);
                 }
             }, this);

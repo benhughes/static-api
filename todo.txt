@@ -1,3 +1,4 @@
 * Finish unit tests
 * add command line feature
 * add pagination
+* right cl unit tests

@@ -26,16 +26,52 @@ describe('static-api', function () {
     describe('parseSettings', function () {
         beforeEach(function () {
             spyOn(staticApiFunctions, 'merge');
+            spyOn(staticApiFunctions, 'getJsonFromPath');
+            spyOn(fs, 'existsSync');
         });
+        it('should call fs.existsSync if string is passed as object', function () {
+            var testSettings = {
+                'test': 'test',
+                object: "test"
+            };
+            fs.existsSync.andReturn(true);
+            staticApiFunctions.parseSettings(testSettings);
+            expect(fs.existsSync).toHaveBeenCalledWith("test");
+        });
+        it('should call staticApiFunctions.getJsonFromPath if fs.existsSync returns true', function () {
+            var testSettings = {
+                'test': 'test',
+                object: "test"
+            };
+            fs.existsSync.andReturn(true);
+            staticApiFunctions.parseSettings(testSettings);
+            expect(fs.existsSync).toHaveBeenCalledWith("test");
+            expect(staticApiFunctions.getJsonFromPath).toHaveBeenCalledWith("test");
+        });
+        it('should throw error if fs.existsSync returns false', function () {
+            var testSettings = {
+                'test': 'test',
+                object: "test"
+            };
+            fs.existsSync.andReturn(false);
+            expect(function () {staticApiFunctions.parseSettings(testSettings); }).toThrow();
+        });
+        it('should throw error if no object is passed with setings', function () {
+            var testSettings = {
+                'test': 'test'
+            };
+            expect(function () {staticApiFunctions.parseSettings(testSettings); }).toThrow();
 
+        });
         it('should throw error if a non object is passed', function () {
-            expect(function () {staticApiFunctions.parseSettings('string'); }).toThrow();
             expect(function () {staticApiFunctions.parseSettings(); }).toThrow();
+            expect(function () {staticApiFunctions.parseSettings('blah'); }).toThrow();
             expect(function () {staticApiFunctions.parseSettings(3424); }).toThrow();
         });
         it('should call this.merge with defaultOptions and passed settings', function () {
             var testSettings = {
-                'test': 'test'
+                'test': 'test',
+                object: {}
             };
             staticApiFunctions.parseSettings(testSettings);
             expect(staticApiFunctions.merge).toHaveBeenCalledWith(staticApiFunctions.defaultOptions, testSettings);
@@ -46,19 +82,63 @@ describe('static-api', function () {
             spyOn(staticApiFunctions, 'deleteFolderRecursive');
             spyOn(staticApiFunctions, 'writeJsonFile');
             spyOn(staticApiFunctions, 'processDataRecursive');
+            spyOn(fs, 'existsSync');
+            spyOn(fs, 'renameSync');
         });
+
         it('should call the correct functions', function () {
-            expect(typeof staticApiFunctions.defaultOptions.outputFolder).toEqual('string');
             staticApiFunctions.settings = {
                 'outputFolder': 'test',
                 'object': {}
             };
 
             staticApiFunctions.createJsonFolderStructure();
+            expect(fs.existsSync).toHaveBeenCalledWith(staticApiFunctions.settings.outputFolder);
             expect(fs.mkdirSync).toHaveBeenCalled();
-            expect(staticApiFunctions.deleteFolderRecursive).toHaveBeenCalled();
             expect(staticApiFunctions.writeJsonFile).toHaveBeenCalled();
             expect(staticApiFunctions.processDataRecursive).toHaveBeenCalled();
+        });
+        it('should call deleteFolderRecursive with outputFolder if it exists and backup is set to false', function () {
+            staticApiFunctions.settings = {
+                'outputFolder': 'test',
+                'object': {},
+                'backUp': false
+            };
+            fs.existsSync.andReturn(true);
+
+            staticApiFunctions.createJsonFolderStructure();
+            expect(staticApiFunctions.deleteFolderRecursive).toHaveBeenCalled();
+
+        });
+        it('should renameSync folder if to name + _bk if it exists and backup is set to true', function () {
+            staticApiFunctions.settings = {
+                'outputFolder': 'test',
+                'object': {},
+                'backUp': true
+            };
+            var i = 0;
+            fs.existsSync.andCallFake(function () {
+                i++;
+                return (i === 1) ? true : false;
+            });
+
+            staticApiFunctions.createJsonFolderStructure();
+            expect(staticApiFunctions.deleteFolderRecursive).not.toHaveBeenCalled();
+            expect(fs.renameSync).toHaveBeenCalled();
+
+        });
+        it('should delete the previous backup folder if it exists and backup is set to true', function () {
+            staticApiFunctions.settings = {
+                'outputFolder': 'test',
+                'object': {},
+                'backUp': true
+            };
+            fs.existsSync.andReturn(true);
+
+            staticApiFunctions.createJsonFolderStructure();
+            expect(staticApiFunctions.deleteFolderRecursive).toHaveBeenCalled();
+            expect(fs.renameSync).toHaveBeenCalled();
+
         });
     });
     describe('processDataRecursive', function () {

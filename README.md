@@ -59,6 +59,22 @@ Create a .json file that strucuture matches your desired API.
 ````
 ### The code
 
+#### Using command line
+
+install static-api using npm
+
+````
+npm install static-api -g
+````
+Run in the command line like so
+````
+-f example/data -j example/example.json
+````
+
+Where -f is the folder you would like the api to saved to and -j the path to the JSON file containing the structure
+
+#### Using a node app
+
 Include 'static-api' as a dependency in your package.json and create a 
 file a js file similar to the code below. 
 

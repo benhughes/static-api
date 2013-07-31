@@ -6,9 +6,15 @@
   "scripts": {
     "test": "jasmine-node spec/"
   },
+  "dependencies": {
+      "commander": "2.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/benhughes/static-api.git"
+  },
+  "bin": {
+    "express": "./cl.js"
   },
   "keywords": [
     "api",
