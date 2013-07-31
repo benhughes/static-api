@@ -1,6 +1,6 @@
 {
   "name": "static-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reads a JSON file and generates a static folder structure that matches the JSON to allow data end points for simple apps without a server",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url": "https://github.com/benhughes/static-api.git"
   },
   "bin": {
-    "express": "./cl.js"
+    "static-api": "./cl.js"
   },
   "keywords": [
     "api",
