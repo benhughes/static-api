@@ -2,7 +2,10 @@ static-api
 ==========
 
 A node module that reads a JSON file and generates a static folder structure that matches 
-the JSON to allow data end points for simple apps without a server
+the JSON to allow data end points for simple apps without the hassle of setting up your own server.
+
+Inspired by the [Jekyll](http://jekyllrb.com/) approach to static website hosting. You can maintian your 
+'database' offline then run this script and push the changes to your live site.
 
 ## How to use
 
