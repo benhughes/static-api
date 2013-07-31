@@ -68,7 +68,7 @@ npm install static-api -g
 ````
 Run in the command line like so
 ````
--f example/data -j example/example.json
+static-api -f example/data -j example/example.json
 ````
 
 Where -f is the folder you would like the api to saved to and -j the path to the JSON file containing the structure
