@@ -89,7 +89,8 @@ var dataFolder = path.join(__dirname, 'data/');
 new staticApi({
     outputFolder: dataFolder, //where the data will be stored
     object: baseData, //the object to create the file structure from
-    outputExtension: 'json' // extension of generated files (could starts with dot)
+    outputExtension: 'json', // extension of generated files (could starts with dot)
+    outputFilename: '', // name of generated file (in default is named by object key)
 });
 ````
 

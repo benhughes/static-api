@@ -12,6 +12,7 @@ program
     .option('-f, --folder [path]', 'Folder where the API structure will be outputted [data]', 'data')
     .option('-b, --backup [true]', 'If the folder exists shall we back it up (will save it as [folder]_bk', 'true')
     .option('-e, --extension [json]', 'Extension of generated files [json]', 'json')
+    .option('-n, --filename [auto]', 'Name of index file in `key` directory', '')
     .parse(process.argv);
 
 if (!program.json || program.json === true) {
@@ -22,7 +23,8 @@ var settings = {
     outputFolder: path.resolve('.', program.folder),
     object: path.resolve('.', program.json),
     backUp: program.backup !== 'false',
-    outputExtension: program.extension
+    outputExtension: program.extension,
+    outputFilename: program.filename
 };
 
 

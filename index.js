@@ -12,7 +12,8 @@ staticAPI.prototype = {
         outputFolder: 'data',
         backUp: true,
         pagination: true,
-        outputExtension: 'json'
+        outputExtension: 'json',
+        outputFilename: ''
     },
     parseSettings: function (settings) {
         if (typeof settings !== 'object') {
@@ -69,6 +70,9 @@ staticAPI.prototype = {
 
     },
     writeJsonFile: function (filePath, object) {
+        if (this.settings.outputFilename) {
+            filePath = filePath.replace(/^(.*)(\/)([^\/]+)$/,'$1/' + this.settings.outputFilename + this.settings.outputExtension);
+        }
         fs.writeFileSync(filePath, JSON.stringify(object));
     },
     deleteFolderRecursive: function (path) {
