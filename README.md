@@ -1,10 +1,10 @@
 static-api
 ==========
 
-A node module that reads a JSON file and generates a static folder structure that matches 
+A node module that reads a JSON file and generates a static folder structure that matches
 the JSON to allow data end points for simple apps without the hassle of setting up your own server.
 
-Inspired by the [Jekyll](http://jekyllrb.com/) approach to static website hosting. You can maintian your 
+Inspired by the [Jekyll](http://jekyllrb.com/) approach to static website hosting. You can maintian your
 'database' offline then run this script and push the changes to your live site.
 
 ## How to use
@@ -75,12 +75,12 @@ Where -f is the folder you would like the api to saved to and -j the path to the
 
 #### Using a node app
 
-Include 'static-api' as a dependency in your package.json and create a 
-file a js file similar to the code below. 
+Include 'static-api' as a dependency in your package.json and create a
+file a js file similar to the code below.
 
 ````js
 var baseData = require('./my-api.json'), //load your json file
-    path = require('path'), 
+    path = require('path'),
     staticApi = require('static-api'); //load the module
 
 
@@ -88,7 +88,8 @@ var dataFolder = path.join(__dirname, 'data/');
 
 new staticApi({
     outputFolder: dataFolder, //where the data will be stored
-    object: baseData //the object to create the file structure from
+    object: baseData, //the object to create the file structure from
+    outputExtension: 'json' // extension of generated files (could starts with dot)
 });
 ````
 
@@ -123,5 +124,5 @@ So now if you hit the following URL from your application /data/artists/0123/alb
 {"id":"456","name":"An Awesome Wave","tracks":{"1":{"name":"intro","length":"2:37"},"2":{"name":"Interlude I","length":"1:12"}}}
 ````
 
-You can now quickly produce a static API that you can use with your simple JavaScript app allowing you 
+You can now quickly produce a static API that you can use with your simple JavaScript app allowing you
 to focus on doing what you do best: *creating awesome web apps or producing amazing prototypes.*
